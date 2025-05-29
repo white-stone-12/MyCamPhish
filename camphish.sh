@@ -1,7 +1,7 @@
 #!/bin/bash
 
 clear
-echo -e "\e[1;32m=== CamPhish Launcher ===\e[0m"
+echo -e "\e[1;32m=== DARK DEVIL ===\e[0m"
 
 # Kill any old running servers/tunnels
 pkill -f "php -S" > /dev/null 2>&1

